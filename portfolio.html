@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Portfólio | Caio Martin</title>
+  <meta name="description" content="Projetos e posts do portfólio profissional de Caio Martin em tecnologia, automação e dados.">
+  <meta name="author" content="Caio Martin">
+  <meta name="theme-color" content="#0f172a">
+
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="pt_BR">
+  <meta property="og:title" content="Portfólio | Caio Martin">
+  <meta property="og:description" content="Carrossel de projetos, posts e entregas profissionais.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Sora:wght@600;700;800&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <script src="projects.js" defer></script>
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#conteudo">Ir para o conteúdo</a>
+
+  <div class="topbar">
+    <div class="container topbar__inner">
+      <span><i class="bi bi-stars" aria-hidden="true"></i> Portfólio profissional em tecnologia</span>
+      <div class="topbar__links">
+        <a href="mailto:contato@caiomartin.dev"><i class="bi bi-envelope" aria-hidden="true"></i> contato@caiomartin.dev</a>
+        <a href="https://www.linkedin.com/in/caiomartin/" target="_blank" rel="noopener"><i class="bi bi-linkedin" aria-hidden="true"></i> LinkedIn</a>
+      </div>
+    </div>
+  </div>
+
+  <header class="site-header" id="topo">
+    <nav class="container nav" aria-label="Navegação principal">
+      <a class="brand" href="index.html" aria-label="Caio Martin - início">
+        <span class="brand__mark" aria-hidden="true">CM</span>
+        <span class="brand__text">
+          <strong>Caio Martin</strong>
+          <small>Portfólio Profissional</small>
+        </span>
+      </a>
+
+      <button class="nav__toggle" type="button" aria-expanded="false" aria-controls="menu" aria-label="Abrir menu">
+        <i class="bi bi-list" aria-hidden="true"></i>
+      </button>
+
+      <div class="nav__menu" id="menu">
+        <a href="index.html#sobre">Sobre</a>
+        <a href="index.html#competencias">Competências</a>
+        <a href="portfolio.html" aria-current="page">Portfólio</a>
+        <a href="index.html#processo">Processo</a>
+        <a class="btn btn--small" href="contato.html"><i class="bi bi-send" aria-hidden="true"></i> Contato</a>
+      </div>
+    </nav>
+  </header>
+
+  <main id="conteudo">
+    <section class="page-hero page-hero--portfolio" aria-labelledby="portfolio-title">
+      <div class="container page-hero__content reveal">
+        <nav class="breadcrumbs" aria-label="Caminho">
+          <a href="index.html">Início</a>
+          <i class="bi bi-chevron-right" aria-hidden="true"></i>
+          <span>Portfólio</span>
+        </nav>
+        <span class="eyebrow eyebrow--light"><i class="bi bi-kanban" aria-hidden="true"></i> Posts de projetos</span>
+        <h1 id="portfolio-title">Portfólio em carrossel</h1>
+        <p>Uma vitrine separada para destacar páginas, cases e projetos. Cada post pode apontar para uma página interna, repositório, demonstração online ou estudo de caso.</p>
+      </div>
+    </section>
+
+    <section class="section portfolio-showcase">
+      <div class="container">
+        <div class="section__head reveal">
+          <span class="eyebrow"><i class="bi bi-collection" aria-hidden="true"></i> Destaques</span>
+          <h2>Projetos em formato de post.</h2>
+          <p class="section__lead">O carrossel usa os mesmos dados da grade abaixo, então basta manter os posts atualizados em um lugar.</p>
+        </div>
+
+        <div class="carousel-shell reveal" data-project-carousel aria-roledescription="carousel" aria-label="Carrossel de projetos">
+          <button class="carousel__button carousel__button--prev" type="button" data-carousel-prev aria-label="Projeto anterior">
+            <i class="bi bi-chevron-left" aria-hidden="true"></i>
+          </button>
+          <div class="carousel__viewport">
+            <div class="carousel__track" data-carousel-track></div>
+          </div>
+          <button class="carousel__button carousel__button--next" type="button" data-carousel-next aria-label="Próximo projeto">
+            <i class="bi bi-chevron-right" aria-hidden="true"></i>
+          </button>
+          <div class="carousel__dots" data-carousel-dots aria-label="Selecionar projeto"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section--soft">
+      <div class="container">
+        <div class="section__head reveal">
+          <span class="eyebrow"><i class="bi bi-card-text" aria-hidden="true"></i> Todos os posts</span>
+          <h2>Lista completa de projetos.</h2>
+        </div>
+        <div class="posts-grid" data-project-posts></div>
+      </div>
+    </section>
+
+    <section class="cta">
+      <div class="container cta__inner reveal">
+        <div>
+          <span class="eyebrow"><i class="bi bi-send" aria-hidden="true"></i> Próximo projeto</span>
+          <h2>Quer colocar um novo case aqui?</h2>
+          <p>Quando tiver um novo projeto, ele pode entrar como post no carrossel com imagem, categoria, descrição e link.</p>
+        </div>
+        <div class="cta__actions">
+          <a class="btn btn--primary" href="contato.html"><i class="bi bi-chat-dots" aria-hidden="true"></i> Conversar</a>
+          <a class="btn btn--outline" href="index.html"><i class="bi bi-house" aria-hidden="true"></i> Voltar ao início</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer__inner">
+      <div>
+        <strong>Caio Martin</strong>
+        <p>Tecnologia, automação e dados com foco em resultado.</p>
+      </div>
+      <div class="footer__links">
+        <a href="index.html#sobre">Sobre</a>
+        <a href="index.html#competencias">Competências</a>
+        <a href="portfolio.html">Portfólio</a>
+        <a href="contato.html">Contato</a>
+      </div>
+    </div>
+  </footer>
+
+  <button class="to-top" type="button" aria-label="Voltar ao topo">
+    <i class="bi bi-arrow-up" aria-hidden="true"></i>
+  </button>
+</body>
+</html>
