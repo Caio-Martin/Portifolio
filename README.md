@@ -164,7 +164,7 @@ Foram adicionados tambem:
 
 Observacao sobre coverage no SonarQube Cloud:
 
-- como este projeto e um site estatico sem relatorio formal de cobertura publicado para o Sonar, os arquivos front-end foram excluidos da metrica de coverage no `sonar-project.properties`;
+- como este projeto e um site estatico sem relatorio formal de cobertura publicado para o Sonar, a base inteira do projeto foi excluida da metrica de coverage no `sonar-project.properties`;
 - assim o Quality Gate da `main` continua avaliando a analise do projeto sem bloquear o deploy por falta de instrumentacao de cobertura.
 
 ## Como as páginas se comunicam
