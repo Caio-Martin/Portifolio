@@ -162,6 +162,11 @@ Foram adicionados tambem:
 - `scripts/validate-site.mjs`: validacao estrutural do site;
 - `sonar-project.properties`: configuracao base da analise do SonarQube Cloud.
 
+Observacao sobre coverage no SonarQube Cloud:
+
+- como este projeto e um site estatico sem relatorio formal de cobertura publicado para o Sonar, os arquivos front-end foram excluidos da metrica de coverage no `sonar-project.properties`;
+- assim o Quality Gate da `main` continua avaliando a analise do projeto sem bloquear o deploy por falta de instrumentacao de cobertura.
+
 ## Como as páginas se comunicam
 
 As páginas se comunicam por links HTML comuns. Não existe roteador, framework ou backend.
