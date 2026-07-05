@@ -1,4 +1,4 @@
-name: PR to Develop - Quality Gate
+name: PR to Develop - Validation
 
 on:
   pull_request:
@@ -10,7 +10,7 @@ permissions:
   pull-requests: read
 
 jobs:
-  validate-and-analyze:
+  validate-and-test:
     runs-on: ubuntu-latest
 
     steps:
@@ -39,21 +39,3 @@ jobs:
           wait-on: http://127.0.0.1:4173
           wait-on-timeout: 120
           browser: chrome
-
-      - name: Validate SonarCloud configuration
-        run: |
-          test -n "${{ secrets.SONAR_TOKEN }}"
-          echo "SonarCloud token configured."
-
-      - name: SonarQube scan
-        uses: SonarSource/sonarqube-scan-action@v6
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          SONAR_HOST_URL: https://sonarcloud.io
-
-      - name: SonarQube quality gate
-        uses: SonarSource/sonarqube-quality-gate-action@master
-        timeout-minutes: 10
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          SONAR_HOST_URL: https://sonarcloud.io

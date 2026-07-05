@@ -60,11 +60,12 @@ Arquivos da pipeline:
 ```text
 feature branch
 -> PR para Develop
--> validacao + Cypress local + SonarQube Cloud + Quality Gate
+-> validacao + Cypress local
 -> merge aprovado para Develop
 -> PR para main
--> Cypress no endpoint publicado
+-> validacao + Cypress local
 -> merge para main
+-> SonarQube Cloud na branch principal
 -> deploy no GitHub Pages
 -> Cypress no endpoint publicado apos deploy
 ```
@@ -83,9 +84,7 @@ Ele executa:
 
 - instalacao das dependencias Node;
 - validacao estrutural do site;
-- Cypress local servindo o projeto estatico;
-- analise SonarQube Cloud;
-- Quality Gate do SonarQube Cloud.
+- Cypress local servindo o projeto estatico.
 
 Se qualquer etapa falhar, o PR nao deve ser aprovado para merge.
 
@@ -120,8 +119,9 @@ Esse workflow roda quando houver `push` no branch `main`.
 Ele executa:
 
 1. validacao do projeto;
-2. deploy no GitHub Pages;
-3. smoke test com Cypress no endpoint retornado pelo proprio deploy.
+2. analise SonarQube Cloud na branch principal;
+3. deploy no GitHub Pages;
+4. smoke test com Cypress no endpoint retornado pelo proprio deploy.
 
 Assim a esteira nao para no ato de publicar: ela confirma tambem que o site subiu e respondeu.
 
@@ -146,6 +146,10 @@ Settings > Secrets and variables > Actions
 adicione o secret:
 
 - `SONAR_TOKEN`
+
+Observacao:
+
+- no plano atual do SonarQube Cloud, a analise foi mantida apenas na `main`, porque branch analysis de PR nao esta disponivel.
 
 ### Arquivos de apoio da automacao
 
