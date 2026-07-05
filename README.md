@@ -147,12 +147,6 @@ adicione o secret:
 
 - `SONAR_TOKEN`
 
-Adicione tambem as repository variables do SonarQube Cloud:
-
-- `SONAR_ORGANIZATION` (use a chave/slug da organizacao, sem espacos)
-- `SONAR_PROJECT_KEY`
-- `SONAR_PROJECT_NAME`
-
 ### Arquivos de apoio da automacao
 
 Foram adicionados tambem:

@@ -43,22 +43,13 @@ jobs:
       - name: Validate SonarCloud configuration
         run: |
           test -n "${{ secrets.SONAR_TOKEN }}"
-          test -n "${{ vars.SONAR_ORGANIZATION }}"
-          test -n "${{ vars.SONAR_PROJECT_KEY }}"
-          echo "Sonar organization: ${{ vars.SONAR_ORGANIZATION }}"
-          echo "Sonar project key: ${{ vars.SONAR_PROJECT_KEY }}"
-          echo "Sonar project name: ${{ vars.SONAR_PROJECT_NAME || github.event.repository.name }}"
+          echo "SonarCloud token configured."
 
       - name: SonarQube scan
         uses: SonarSource/sonarqube-scan-action@v6
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: https://sonarcloud.io
-        with:
-          args: >
-            -Dsonar.organization=${{ vars.SONAR_ORGANIZATION }}
-            -Dsonar.projectKey=${{ vars.SONAR_PROJECT_KEY }}
-            -Dsonar.projectName=${{ vars.SONAR_PROJECT_NAME || github.event.repository.name }}
 
       - name: SonarQube quality gate
         uses: SonarSource/sonarqube-quality-gate-action@master
