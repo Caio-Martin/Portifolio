@@ -103,21 +103,9 @@ Ele executa:
 
 - instalacao das dependencias;
 - validacao estrutural;
-- Cypress contra o endpoint publicado.
+- Cypress local servindo o site estatico.
 
-A ideia aqui e validar se o ambiente publicado esta saudavel antes da promocao final.
-
-Por padrao ele tenta usar esta URL:
-
-```text
-https://caio-martin.github.io/Portifolio/
-```
-
-Se quiser sobrescrever isso, crie uma repository variable:
-
-```text
-PAGES_BASE_URL
-```
+A ideia aqui e validar se a release candidata para `main` continua funcionando antes do merge.
 
 ### 3. Push em main
 
@@ -158,10 +146,6 @@ Settings > Secrets and variables > Actions
 adicione o secret:
 
 - `SONAR_TOKEN`
-
-Opcionalmente, adicione a variable:
-
-- `PAGES_BASE_URL`
 
 Adicione tambem as repository variables do SonarQube Cloud:
 

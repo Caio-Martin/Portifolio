@@ -11,8 +11,6 @@ permissions:
 jobs:
   validate-release:
     runs-on: ubuntu-latest
-    env:
-      CYPRESS_BASE_URL: ${{ vars.PAGES_BASE_URL != '' && vars.PAGES_BASE_URL || format('https://{0}.github.io/{1}/', github.repository_owner, github.event.repository.name) }}
 
     steps:
       - name: Checkout repository
@@ -30,5 +28,11 @@ jobs:
       - name: Validate static files
         run: npm run validate
 
-      - name: Run Cypress against deployed endpoint
-        run: npm run cypress:live
+      - name: Run Cypress smoke locally
+        uses: cypress-io/github-action@v6
+        with:
+          install: false
+          start: npm run serve
+          wait-on: http://127.0.0.1:4173
+          wait-on-timeout: 120
+          browser: chrome
