@@ -40,6 +40,15 @@ jobs:
           wait-on-timeout: 120
           browser: chrome
 
+      - name: Validate SonarCloud configuration
+        run: |
+          test -n "${{ secrets.SONAR_TOKEN }}"
+          test -n "${{ vars.SONAR_ORGANIZATION }}"
+          test -n "${{ vars.SONAR_PROJECT_KEY }}"
+          echo "Sonar organization: ${{ vars.SONAR_ORGANIZATION }}"
+          echo "Sonar project key: ${{ vars.SONAR_PROJECT_KEY }}"
+          echo "Sonar project name: ${{ vars.SONAR_PROJECT_NAME || github.event.repository.name }}"
+
       - name: SonarQube scan
         uses: SonarSource/sonarqube-scan-action@v6
         env:
