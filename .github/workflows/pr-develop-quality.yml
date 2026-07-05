@@ -56,9 +56,9 @@ jobs:
           SONAR_HOST_URL: https://sonarcloud.io
         with:
           args: >
-            -Dsonar.organization="${{ vars.SONAR_ORGANIZATION }}"
-            -Dsonar.projectKey="${{ vars.SONAR_PROJECT_KEY }}"
-            -Dsonar.projectName="${{ vars.SONAR_PROJECT_NAME || github.event.repository.name }}"
+            -Dsonar.organization=${{ vars.SONAR_ORGANIZATION }}
+            -Dsonar.projectKey=${{ vars.SONAR_PROJECT_KEY }}
+            -Dsonar.projectName=${{ vars.SONAR_PROJECT_NAME || github.event.repository.name }}
 
       - name: SonarQube quality gate
         uses: SonarSource/sonarqube-quality-gate-action@master
