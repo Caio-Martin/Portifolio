@@ -44,6 +44,8 @@ out/
 # Test and coverage output
 coverage/
 .nyc_output/
+cypress/screenshots/
+cypress/videos/
 
 # Temporary files
 tmp/
