@@ -43,6 +43,125 @@ contato.html
 
 Alguns recursos externos, como fontes, ícones e imagens remotas, dependem de internet para aparecer exatamente como planejado.
 
+## CI/CD com GitHub Pages, SonarQube Cloud e Cypress
+
+O projeto agora está estruturado para uma esteira com qualidade, release e deploy.
+
+Arquivos da pipeline:
+
+```text
+.github/workflows/pr-develop-quality.yml
+.github/workflows/pr-main-release-check.yml
+.github/workflows/main-deploy-pages.yml
+```
+
+### Fluxo proposto
+
+```text
+feature branch
+-> PR para Develop
+-> validacao + Cypress local
+-> merge aprovado para Develop
+-> PR para main
+-> validacao + Cypress local
+-> merge para main
+-> SonarQube Cloud na branch principal
+-> deploy no GitHub Pages
+-> Cypress no endpoint publicado apos deploy
+```
+
+### 1. PR para Develop
+
+Workflow:
+
+```text
+pr-develop-quality.yml
+```
+
+Esse workflow roda quando um pull request aponta para `Develop`.
+
+Ele executa:
+
+- instalacao das dependencias Node;
+- validacao estrutural do site;
+- Cypress local servindo o projeto estatico.
+
+Se qualquer etapa falhar, o PR nao deve ser aprovado para merge.
+
+### 2. PR para main
+
+Workflow:
+
+```text
+pr-main-release-check.yml
+```
+
+Esse workflow roda quando um pull request aponta para `main`.
+
+Ele executa:
+
+- instalacao das dependencias;
+- validacao estrutural;
+- Cypress local servindo o site estatico.
+
+A ideia aqui e validar se a release candidata para `main` continua funcionando antes do merge.
+
+### 3. Push em main
+
+Workflow:
+
+```text
+main-deploy-pages.yml
+```
+
+Esse workflow roda quando houver `push` no branch `main`.
+
+Ele executa:
+
+1. validacao do projeto;
+2. analise SonarQube Cloud na branch principal;
+3. deploy no GitHub Pages;
+4. smoke test com Cypress no endpoint retornado pelo proprio deploy.
+
+Assim a esteira nao para no ato de publicar: ela confirma tambem que o site subiu e respondeu.
+
+### Configuracoes necessarias no GitHub
+
+Em:
+
+```text
+Settings > Pages
+```
+
+configure:
+
+- `Source`: `GitHub Actions`
+
+Em:
+
+```text
+Settings > Secrets and variables > Actions
+```
+
+adicione o secret:
+
+- `SONAR_TOKEN`
+
+Observacao:
+
+- no plano atual do SonarQube Cloud, a analise foi mantida apenas na `main`, porque branch analysis de PR nao esta disponivel.
+
+### Arquivos de apoio da automacao
+
+Foram adicionados tambem:
+
+- `package.json`: scripts e dependencias do Cypress;
+- `cypress.config.js`: Cypress local;
+- `cypress.live.config.js`: Cypress apontando para endpoint publicado;
+- `cypress/e2e/site.cy.js`: smoke test das paginas principais;
+- `scripts/validate-site.mjs`: validacao estrutural do site;
+- `sonar-project.properties`: configuracao base da analise do SonarQube Cloud.
+
 ## Como as páginas se comunicam
 
 As páginas se comunicam por links HTML comuns. Não existe roteador, framework ou backend.

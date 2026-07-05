@@ -1,0 +1,41 @@
+name: PR to Develop - Validation
+
+on:
+  pull_request:
+    branches:
+      - Develop
+
+permissions:
+  contents: read
+  pull-requests: read
+
+jobs:
+  validate-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Validate static files
+        run: npm run validate
+
+      - name: Run Cypress smoke locally
+        uses: cypress-io/github-action@v6
+        with:
+          install: false
+          start: npm run serve
+          wait-on: http://127.0.0.1:4173
+          wait-on-timeout: 120
+          browser: chrome
