@@ -1,0 +1,17 @@
+{
+  "name": "portifolio-caiomartin",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Site estatico de portfolio com CI/CD, Cypress e SonarQube.",
+  "scripts": {
+    "serve": "http-server . -p 4173 -c-1",
+    "validate": "node --check script.js && node scripts/validate-site.mjs",
+    "cypress:open": "cypress open",
+    "cypress:local": "cypress run",
+    "cypress:live": "cypress run --config-file cypress.live.config.js"
+  },
+  "devDependencies": {
+    "cypress": "^14.5.4",
+    "http-server": "^14.1.1"
+  }
+}

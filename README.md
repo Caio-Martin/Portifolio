@@ -43,6 +43,143 @@ contato.html
 
 Alguns recursos externos, como fontes, ícones e imagens remotas, dependem de internet para aparecer exatamente como planejado.
 
+## CI/CD com GitHub Pages, SonarQube Cloud e Cypress
+
+O projeto agora está estruturado para uma esteira com qualidade, release e deploy.
+
+Arquivos da pipeline:
+
+```text
+.github/workflows/pr-develop-quality.yml
+.github/workflows/pr-main-release-check.yml
+.github/workflows/main-deploy-pages.yml
+```
+
+### Fluxo proposto
+
+```text
+feature branch
+-> PR para Develop
+-> validacao + Cypress local + SonarQube Cloud + Quality Gate
+-> merge aprovado para Develop
+-> PR para main
+-> Cypress no endpoint publicado
+-> merge para main
+-> deploy no GitHub Pages
+-> Cypress no endpoint publicado apos deploy
+```
+
+### 1. PR para Develop
+
+Workflow:
+
+```text
+pr-develop-quality.yml
+```
+
+Esse workflow roda quando um pull request aponta para `Develop`.
+
+Ele executa:
+
+- instalacao das dependencias Node;
+- validacao estrutural do site;
+- Cypress local servindo o projeto estatico;
+- analise SonarQube Cloud;
+- Quality Gate do SonarQube Cloud.
+
+Se qualquer etapa falhar, o PR nao deve ser aprovado para merge.
+
+### 2. PR para main
+
+Workflow:
+
+```text
+pr-main-release-check.yml
+```
+
+Esse workflow roda quando um pull request aponta para `main`.
+
+Ele executa:
+
+- instalacao das dependencias;
+- validacao estrutural;
+- Cypress contra o endpoint publicado.
+
+A ideia aqui e validar se o ambiente publicado esta saudavel antes da promocao final.
+
+Por padrao ele tenta usar esta URL:
+
+```text
+https://caio-martin.github.io/Portifolio/
+```
+
+Se quiser sobrescrever isso, crie uma repository variable:
+
+```text
+PAGES_BASE_URL
+```
+
+### 3. Push em main
+
+Workflow:
+
+```text
+main-deploy-pages.yml
+```
+
+Esse workflow roda quando houver `push` no branch `main`.
+
+Ele executa:
+
+1. validacao do projeto;
+2. deploy no GitHub Pages;
+3. smoke test com Cypress no endpoint retornado pelo proprio deploy.
+
+Assim a esteira nao para no ato de publicar: ela confirma tambem que o site subiu e respondeu.
+
+### Configuracoes necessarias no GitHub
+
+Em:
+
+```text
+Settings > Pages
+```
+
+configure:
+
+- `Source`: `GitHub Actions`
+
+Em:
+
+```text
+Settings > Secrets and variables > Actions
+```
+
+adicione o secret:
+
+- `SONAR_TOKEN`
+
+Opcionalmente, adicione a variable:
+
+- `PAGES_BASE_URL`
+
+Adicione tambem as repository variables do SonarQube Cloud:
+
+- `SONAR_ORGANIZATION`
+- `SONAR_PROJECT_KEY`
+- `SONAR_PROJECT_NAME`
+
+### Arquivos de apoio da automacao
+
+Foram adicionados tambem:
+
+- `package.json`: scripts e dependencias do Cypress;
+- `cypress.config.js`: Cypress local;
+- `cypress.live.config.js`: Cypress apontando para endpoint publicado;
+- `cypress/e2e/site.cy.js`: smoke test das paginas principais;
+- `scripts/validate-site.mjs`: validacao estrutural do site;
+- `sonar-project.properties`: configuracao base da analise do SonarQube Cloud.
+
 ## Como as páginas se comunicam
 
 As páginas se comunicam por links HTML comuns. Não existe roteador, framework ou backend.
