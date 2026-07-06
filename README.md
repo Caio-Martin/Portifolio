@@ -43,7 +43,7 @@ contato.html
 
 Alguns recursos externos, como fontes, ícones e imagens remotas, dependem de internet para aparecer exatamente como planejado.
 
-## CI/CD com GitHub Pages, SonarQube Cloud e Cypress
+## CI/CD com GitHub Pages e Cypress
 
 O projeto agora está estruturado para uma esteira com qualidade, release e deploy.
 
@@ -65,7 +65,6 @@ feature branch
 -> PR para main
 -> validacao + Cypress local
 -> merge para main
--> SonarQube Cloud na branch principal
 -> deploy no GitHub Pages
 -> Cypress no endpoint publicado apos deploy
 ```
@@ -119,9 +118,8 @@ Esse workflow roda quando houver `push` no branch `main`.
 Ele executa:
 
 1. validacao do projeto;
-2. analise SonarQube Cloud na branch principal;
-3. deploy no GitHub Pages;
-4. smoke test com Cypress no endpoint retornado pelo proprio deploy.
+2. deploy no GitHub Pages;
+3. smoke test com Cypress no endpoint retornado pelo proprio deploy.
 
 Assim a esteira nao para no ato de publicar: ela confirma tambem que o site subiu e respondeu.
 
@@ -137,20 +135,6 @@ configure:
 
 - `Source`: `GitHub Actions`
 
-Em:
-
-```text
-Settings > Secrets and variables > Actions
-```
-
-adicione o secret:
-
-- `SONAR_TOKEN`
-
-Observacao:
-
-- no plano atual do SonarQube Cloud, a analise foi mantida apenas na `main`, porque branch analysis de PR nao esta disponivel.
-
 ### Arquivos de apoio da automacao
 
 Foram adicionados tambem:
@@ -159,13 +143,7 @@ Foram adicionados tambem:
 - `cypress.config.js`: Cypress local;
 - `cypress.live.config.js`: Cypress apontando para endpoint publicado;
 - `cypress/e2e/site.cy.js`: smoke test das paginas principais;
-- `scripts/validate-site.mjs`: validacao estrutural do site;
-- `sonar-project.properties`: configuracao base da analise do SonarQube Cloud.
-
-Observacao sobre coverage no SonarQube Cloud:
-
-- como este projeto e um site estatico sem relatorio formal de cobertura publicado para o Sonar, a base inteira do projeto foi excluida da metrica de coverage no `sonar-project.properties`;
-- assim o Quality Gate da `main` continua avaliando a analise do projeto sem bloquear o deploy por falta de instrumentacao de cobertura.
+- `scripts/validate-site.mjs`: validacao estrutural do site.
 
 ## Como as páginas se comunicam
 
