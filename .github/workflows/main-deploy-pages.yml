@@ -57,6 +57,7 @@ jobs:
           cp styles.css public-site/
           cp script.js public-site/
           cp projects.js public-site/
+          cp -r lib public-site/
 
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v5
