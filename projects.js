@@ -6,39 +6,39 @@ window.portfolioProjects = [
     category: "Página estática",
     year: "2026",
     summary: "Página institucional para apresentar perfil, competências, projetos e canais de contato de forma responsiva.",
-    image: "https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=1200&q=80",
+    image: "lib/img/hero-home.jpg",
     url: "index.html",
     cta: "Abrir página",
     tags: ["HTML", "CSS", "Responsivo"]
   },
   {
-    title: "Dashboard de indicadores",
-    category: "Dados e BI",
+    title: "Cluster de virtualização Proxmox",
+    category: "Cloud e Virtualização",
     year: "Projeto modelo",
-    summary: "Estrutura para acompanhar métricas de negócio, consolidar informações e apoiar decisões com painéis visuais.",
-    image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1200&q=80",
+    summary: "Ambiente de virtualização com Proxmox e cloud Azure, incluindo VMs, backups, snapshots e alta disponibilidade de serviços.",
+    image: "lib/img/thumb-dashboard.jpg",
     url: "#",
     cta: "Adicionar link",
-    tags: ["BI", "Indicadores", "Gestão"]
+    tags: ["Proxmox", "Azure", "Windows Server"]
   },
   {
-    title: "Automação de rotinas",
-    category: "Processos",
+    title: "Rede corporativa Ubiquiti",
+    category: "Redes",
     year: "Projeto modelo",
-    summary: "Fluxo para conectar ferramentas, reduzir retrabalho e transformar tarefas repetitivas em processos mais claros.",
-    image: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=1200&q=80",
+    summary: "Projeto de rede com equipamentos UniFi: segmentação por VLANs, Wi-Fi corporativo e monitoramento de tráfego.",
+    image: "lib/img/thumb-automation.jpg",
     url: "#",
     cta: "Adicionar link",
-    tags: ["Automação", "Integrações", "Produtividade"]
+    tags: ["Ubiquiti", "UniFi", "VLAN"]
   },
   {
-    title: "Landing page de serviço",
-    category: "Presença digital",
+    title: "Hardening, firewall e automação",
+    category: "Cybersecurity",
     year: "Projeto modelo",
-    summary: "Página comercial focada em proposta de valor, prova de competência e conversão para contato.",
-    image: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=1200&q=80",
+    summary: "Políticas de firewall e hardening de servidores Linux, com fluxos de automação em n8n para reduzir tarefas manuais e riscos.",
+    image: "lib/img/thumb-site.jpg",
     url: "#",
     cta: "Adicionar link",
-    tags: ["Landing page", "SEO", "Contato"]
+    tags: ["Firewall", "Linux", "n8n"]
   }
 ];
