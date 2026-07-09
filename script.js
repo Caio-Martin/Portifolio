@@ -193,7 +193,7 @@ const setupContactForm = () => {
       data.get("mensagem")
     ].join("\n");
 
-    window.location.href = `mailto:contato@caiomartin.dev?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    window.location.href = `mailto:caio.m.nascimento@outlook.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
 
     if (feedback) {
       feedback.textContent = "Abrindo seu aplicativo de e-mail com a mensagem preenchida.";
