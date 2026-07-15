@@ -174,7 +174,9 @@ const setupContactForm = () => {
     return;
   }
 
-  form.addEventListener("submit", (event) => {
+  const submitButton = form.querySelector("button[type=submit]");
+
+  form.addEventListener("submit", async (event) => {
     event.preventDefault();
 
     if (!form.reportValidity()) {
@@ -182,21 +184,45 @@ const setupContactForm = () => {
     }
 
     const data = new FormData(form);
-    const subject = `Contato pelo portfólio: ${data.get("assunto")}`;
-    const body = [
-      `Nome: ${data.get("nome")}`,
-      `Email: ${data.get("email")}`,
-      `Telefone/WhatsApp: ${data.get("telefone") || "Não informado"}`,
-      `Assunto: ${data.get("assunto")}`,
-      "",
-      "Mensagem:",
-      data.get("mensagem")
-    ].join("\n");
+    data.set("subject", `Contato pelo portfólio: ${data.get("assunto")}`);
+    data.set("telefone", data.get("telefone") || "Não informado");
+    data.set("from_name", data.get("nome"));
+    data.set("replyto", data.get("email"));
 
-    window.location.href = `mailto:caio.m.nascimento@outlook.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-
+    if (submitButton) {
+      submitButton.disabled = true;
+    }
     if (feedback) {
-      feedback.textContent = "Abrindo seu aplicativo de e-mail com a mensagem preenchida.";
+      feedback.textContent = "Enviando sua mensagem...";
+    }
+
+    try {
+      const response = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json"
+        },
+        body: JSON.stringify(Object.fromEntries(data))
+      });
+      const result = await response.json();
+
+      if (result.success) {
+        if (feedback) {
+          feedback.textContent = "Mensagem enviada com sucesso! Retorno em breve.";
+        }
+        form.reset();
+      } else {
+        throw new Error(result.message || "Falha no envio");
+      }
+    } catch (error) {
+      if (feedback) {
+        feedback.textContent = "Não foi possível enviar agora. Tente novamente ou use o e-mail/WhatsApp ao lado.";
+      }
+    } finally {
+      if (submitButton) {
+        submitButton.disabled = false;
+      }
     }
   });
 };
