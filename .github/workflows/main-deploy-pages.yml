@@ -58,6 +58,7 @@ jobs:
           cp script.js public-site/
           cp projects.js public-site/
           cp -r lib public-site/
+          cp CNAME public-site/
 
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v5
