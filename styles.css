@@ -93,6 +93,12 @@ a {
   background: rgba(255, 255, 255, 0.92);
   border-bottom: 1px solid rgba(217, 226, 236, 0.86);
   backdrop-filter: blur(16px);
+  box-shadow: 0 0 0 rgba(15, 23, 42, 0);
+  transition: box-shadow 240ms ease;
+}
+
+.site-header.is-scrolled {
+  box-shadow: 0 12px 32px rgba(15, 23, 42, 0.08);
 }
 
 .nav {
@@ -116,6 +122,11 @@ a {
   flex: 0 0 42px;
   border-radius: 8px;
   object-fit: cover;
+  transition: transform 260ms ease;
+}
+
+.brand:hover .brand__mark {
+  transform: scale(1.06) rotate(-3deg);
 }
 
 .brand__text {
@@ -165,10 +176,6 @@ a {
   transform: scaleX(1);
 }
 
-.nav__menu .btn[aria-current="page"] {
-  background: var(--blue);
-}
-
 .nav__toggle {
   display: none;
   width: 42px;
@@ -200,29 +207,23 @@ a {
   transform: translateY(-2px);
 }
 
+.btn:active {
+  transform: translateY(0) scale(0.98);
+}
+
 .btn--small {
   min-height: 38px;
   padding: 10px 14px;
-  background: var(--ink);
+  background: var(--blue);
   color: #fff;
 }
 
-.btn--primary {
+.btn--primary,
+.btn--ghost,
+.btn--outline {
   background: var(--blue);
   color: #fff;
   box-shadow: 0 16px 35px rgba(37, 99, 235, 0.28);
-}
-
-.btn--ghost {
-  color: #fff;
-  border-color: rgba(255, 255, 255, 0.5);
-  background: rgba(255, 255, 255, 0.12);
-}
-
-.btn--outline {
-  color: var(--ink);
-  border-color: var(--line);
-  background: var(--paper);
 }
 
 .btn.is-disabled {
@@ -246,6 +247,7 @@ a {
 .hero__overlay {
   position: absolute;
   inset: 0;
+  z-index: 0;
   background: linear-gradient(180deg, transparent 72%, rgba(255, 255, 255, 0.94));
   pointer-events: none;
 }
@@ -361,6 +363,12 @@ h3 {
   border-radius: var(--radius);
   background: var(--paper);
   box-shadow: var(--shadow);
+  transition: transform 260ms ease, box-shadow 260ms ease;
+}
+
+.stat:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 26px 60px rgba(15, 23, 42, 0.16);
 }
 
 .stat__value {
@@ -432,6 +440,14 @@ h3 {
   color: var(--ink-2);
   font-weight: 700;
   font-size: 0.92rem;
+  transition: transform 200ms ease, border-color 200ms ease, background 200ms ease, color 200ms ease;
+}
+
+.pill-list span:hover {
+  transform: translateY(-2px);
+  border-color: var(--blue);
+  background: #e8f3ff;
+  color: var(--blue);
 }
 
 .cards-grid {
@@ -447,6 +463,13 @@ h3 {
   border-radius: var(--radius);
   background: var(--paper);
   box-shadow: 0 12px 35px rgba(15, 23, 42, 0.08);
+  transition: transform 260ms ease, box-shadow 260ms ease, border-color 260ms ease;
+}
+
+.card:hover {
+  transform: translateY(-6px);
+  border-color: rgba(37, 99, 235, 0.35);
+  box-shadow: 0 26px 55px rgba(15, 23, 42, 0.14);
 }
 
 .card > i {
@@ -459,6 +482,11 @@ h3 {
   background: #e8f3ff;
   color: var(--blue);
   font-size: 1.35rem;
+  transition: transform 260ms ease;
+}
+
+.card:hover > i {
+  transform: scale(1.08) rotate(-4deg);
 }
 
 .card p,
@@ -485,6 +513,12 @@ h3 {
   border-radius: var(--radius);
   background: var(--paper);
   box-shadow: 0 14px 42px rgba(15, 23, 42, 0.08);
+  transition: transform 260ms ease, box-shadow 260ms ease;
+}
+
+.project:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 28px 60px rgba(15, 23, 42, 0.14);
 }
 
 .project__media {
@@ -495,6 +529,11 @@ h3 {
   background:
     linear-gradient(135deg, rgba(37, 99, 235, 0.94), rgba(15, 118, 110, 0.84)),
     url("lib/img/thumb-site.jpg") center / cover;
+  transition: transform 400ms ease;
+}
+
+.project:hover .project__media {
+  transform: scale(1.035);
 }
 
 .project__media span {
@@ -594,6 +633,15 @@ h3 {
   margin-top: 16px;
   color: var(--blue);
   font-weight: 800;
+}
+
+.text-link i {
+  transition: transform 200ms ease;
+}
+
+.text-link:hover i,
+.text-link:focus-visible i {
+  transform: translateX(4px);
 }
 
 .section--ink .section__head {
@@ -1085,6 +1133,7 @@ h3 {
 
 .footer__social {
   display: flex;
+  flex-wrap: wrap;
   gap: 10px;
 }
 
@@ -1158,7 +1207,7 @@ h3 {
   opacity: 0;
   visibility: hidden;
   transform: translateY(14px);
-  transition: opacity 180ms ease, transform 180ms ease, visibility 180ms ease;
+  transition: opacity 180ms ease, transform 180ms ease, visibility 180ms ease, box-shadow 180ms ease;
 }
 
 .to-top.is-visible {
@@ -1167,15 +1216,44 @@ h3 {
   transform: translateY(0);
 }
 
+.to-top:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 20px 40px rgba(15, 118, 110, 0.35);
+}
+
 .reveal {
   opacity: 0;
-  transform: translateY(22px);
-  transition: opacity 500ms ease, transform 500ms ease;
+  transform: translateY(26px);
+  transition: opacity 700ms cubic-bezier(0.16, 1, 0.3, 1), transform 700ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .reveal.is-visible {
   opacity: 1;
   transform: translateY(0);
+}
+
+.stats__grid .reveal:nth-child(2),
+.cards-grid .reveal:nth-child(2),
+.project-list .reveal:nth-child(2) {
+  transition-delay: 90ms;
+}
+
+.stats__grid .reveal:nth-child(3),
+.cards-grid .reveal:nth-child(3),
+.project-list .reveal:nth-child(3) {
+  transition-delay: 180ms;
+}
+
+.cards-grid .reveal:nth-child(4) {
+  transition-delay: 90ms;
+}
+
+.cards-grid .reveal:nth-child(5) {
+  transition-delay: 180ms;
+}
+
+.cards-grid .reveal:nth-child(6) {
+  transition-delay: 270ms;
 }
 
 @media (max-width: 900px) {

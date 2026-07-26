@@ -2,6 +2,7 @@ const navToggle = document.querySelector(".nav__toggle");
 const navMenu = document.querySelector(".nav__menu");
 const toTop = document.querySelector(".to-top");
 const revealItems = document.querySelectorAll(".reveal");
+const siteHeader = document.querySelector(".site-header");
 
 if (navToggle && navMenu) {
   navToggle.addEventListener("click", () => {
@@ -29,6 +30,12 @@ if (toTop) {
   toTop.addEventListener("click", () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   });
+}
+
+if (siteHeader) {
+  window.addEventListener("scroll", () => {
+    siteHeader.classList.toggle("is-scrolled", window.scrollY > 12);
+  }, { passive: true });
 }
 
 if ("IntersectionObserver" in window) {
