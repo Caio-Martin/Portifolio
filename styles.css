@@ -1189,6 +1189,42 @@ h3 {
   font-size: 0.85rem;
 }
 
+.footer__credential {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  gap: 8px;
+  padding-top: 18px;
+}
+
+.credential-seal {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 13px 5px 5px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.05);
+  color: #cbd5e1;
+  font-size: 0.7rem;
+  font-weight: 700;
+  transition: border-color 160ms ease, color 160ms ease, background 160ms ease;
+}
+
+.credential-seal img {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  flex: 0 0 22px;
+}
+
+.credential-seal:hover,
+.credential-seal:focus-visible {
+  border-color: var(--teal);
+  color: #fff;
+  background: rgba(255, 255, 255, 0.1);
+}
+
 .to-top {
   position: fixed;
   right: 18px;
