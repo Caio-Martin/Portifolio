@@ -54,9 +54,13 @@ jobs:
           cp index.html public-site/
           cp portfolio.html public-site/
           cp contato.html public-site/
+          cp 404.html public-site/
           cp styles.css public-site/
           cp script.js public-site/
           cp projects.js public-site/
+          cp robots.txt public-site/
+          cp sitemap.xml public-site/
+          cp favicon.ico public-site/
           cp -r lib public-site/
           cp CNAME public-site/
 
