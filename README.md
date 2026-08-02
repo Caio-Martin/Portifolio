@@ -1,227 +1,78 @@
 # Portfólio Profissional - Caio Martin
 
-Este projeto é um site estático de portfólio profissional criado em HTML, CSS e JavaScript puro.
-
-## O que foi feito
-
-Foram criadas três páginas principais:
-
-- `index.html`: página inicial do portfólio.
-- `portfolio.html`: página separada para mostrar os projetos em carrossel e em grade de posts.
-- `contato.html`: página de contato destacada, com canais diretos e formulário.
-
-Também foram criados/atualizados os arquivos compartilhados:
-
-- `styles.css`: estilos globais, responsividade, layout das páginas, carrossel, cards e formulário.
-- `script.js`: comportamento do menu mobile, botão de voltar ao topo, animações de entrada, carrossel e formulário de contato.
-- `projects.js`: fonte de dados dos projetos exibidos no carrossel e na grade do portfólio.
+Site estático de portfólio profissional (infraestrutura, cloud e cybersecurity), feito em HTML, CSS e JavaScript puro, publicado no GitHub Pages com domínio próprio (`caiomartin.dev`).
 
 ## Estrutura dos arquivos
 
 ```text
 portifolio-caiomartin/
-├── index.html
-├── portfolio.html
-├── contato.html
-├── styles.css
-├── script.js
-├── projects.js
-└── README.md
+├── index.html            # página inicial
+├── portfolio.html        # vitrine de projetos (carrossel + grade)
+├── contato.html          # página de contato
+├── 404.html               # página de erro 404 personalizada
+├── styles.css             # estilos globais
+├── script.js               # comportamento compartilhado (menu, carrossel, formulário...)
+├── projects.js             # dados dos projetos exibidos no portfólio
+├── robots.txt               # diretivas para crawlers
+├── sitemap.xml              # mapa do site para buscadores
+├── favicon.ico               # ícone de fallback na raiz
+├── CNAME                      # domínio customizado do GitHub Pages
+├── lib/img/                    # imagens do site (já otimizadas)
+├── scripts/validate-site.mjs    # validação estrutural usada no CI
+├── cypress/e2e/site.cy.js        # smoke tests
+├── cypress.config.js              # Cypress local
+├── cypress.live.config.js          # Cypress contra o site publicado
+└── .github/workflows/               # pipelines de CI/CD
 ```
 
 ## Como abrir o site
 
-Como o projeto é estático, não precisa de servidor, build ou instalação de dependências.
-
-Abra qualquer um destes arquivos no navegador:
+Como o projeto é estático, não precisa de build nem de dependências instaladas para visualizar:
 
 ```text
 index.html
 portfolio.html
 contato.html
+404.html
 ```
 
-Alguns recursos externos, como fontes, ícones e imagens remotas, dependem de internet para aparecer exatamente como planejado.
+Para rodar com um servidor local (recomendado, evita bloqueios de `fetch`/CORS ao testar o formulário de contato):
 
-## CI/CD com GitHub Pages e Cypress
-
-O projeto agora está estruturado para uma esteira com qualidade, release e deploy.
-
-Arquivos da pipeline:
-
-```text
-.github/workflows/pr-develop-quality.yml
-.github/workflows/pr-main-release-check.yml
-.github/workflows/main-deploy-pages.yml
+```bash
+npm install
+npm run serve
 ```
 
-### Fluxo proposto
+Isso sobe o site em `http://127.0.0.1:4173`.
 
-```text
-feature branch
--> PR para Develop
--> validacao + Cypress local
--> merge aprovado para Develop
--> PR para main
--> validacao + Cypress local
--> merge para main
--> deploy no GitHub Pages
--> Cypress no endpoint publicado apos deploy
-```
+Fontes e ícones (Google Fonts e Bootstrap Icons) são carregados via CDN e dependem de internet para aparecer exatamente como planejado. As demais imagens já estão locais em `lib/img/`.
 
-### 1. PR para Develop
+## Páginas
 
-Workflow:
+### `index.html`
 
-```text
-pr-develop-quality.yml
-```
+Página inicial com o perfil profissional: topbar, menu, hero, áreas de atuação, seção Sobre, Competências, prévia de Projetos e CTA para contato. Inclui dados estruturados (`application/ld+json`, schema `Person`) para melhorar como o site aparece em buscadores.
 
-Esse workflow roda quando um pull request aponta para `Develop`.
+### `portfolio.html`
 
-Ele executa:
-
-- instalacao das dependencias Node;
-- validacao estrutural do site;
-- Cypress local servindo o projeto estatico.
-
-Se qualquer etapa falhar, o PR nao deve ser aprovado para merge.
-
-### 2. PR para main
-
-Workflow:
-
-```text
-pr-main-release-check.yml
-```
-
-Esse workflow roda quando um pull request aponta para `main`.
-
-Ele executa:
-
-- instalacao das dependencias;
-- validacao estrutural;
-- Cypress local servindo o site estatico.
-
-A ideia aqui e validar se a release candidata para `main` continua funcionando antes do merge.
-
-### 3. Push em main
-
-Workflow:
-
-```text
-main-deploy-pages.yml
-```
-
-Esse workflow roda quando houver `push` no branch `main`.
-
-Ele executa:
-
-1. validacao do projeto;
-2. deploy no GitHub Pages;
-3. smoke test com Cypress no endpoint retornado pelo proprio deploy.
-
-Assim a esteira nao para no ato de publicar: ela confirma tambem que o site subiu e respondeu.
-
-### Configuracoes necessarias no GitHub
-
-Em:
-
-```text
-Settings > Pages
-```
-
-configure:
-
-- `Source`: `GitHub Actions`
-
-### Arquivos de apoio da automacao
-
-Foram adicionados tambem:
-
-- `package.json`: scripts e dependencias do Cypress;
-- `cypress.config.js`: Cypress local;
-- `cypress.live.config.js`: Cypress apontando para endpoint publicado;
-- `cypress/e2e/site.cy.js`: smoke test das paginas principais;
-- `scripts/validate-site.mjs`: validacao estrutural do site.
-
-## Como as páginas se comunicam
-
-As páginas se comunicam por links HTML comuns. Não existe roteador, framework ou backend.
-
-Fluxo principal:
-
-```text
-index.html
-├── linka para portfolio.html
-├── linka para contato.html
-└── linka para seções internas como #sobre, #competencias, #processo
-
-portfolio.html
-├── linka para index.html
-├── linka para contato.html
-└── carrega projects.js para montar os posts de projetos
-
-contato.html
-├── linka para index.html
-├── linka para portfolio.html
-└── usa mailto para abrir o aplicativo de e-mail do visitante
-```
-
-Todas as páginas usam os mesmos arquivos `styles.css` e `script.js`, por isso mantêm o mesmo visual, menu, rodapé, animações e comportamento responsivo.
-
-## Página inicial: `index.html`
-
-A página inicial apresenta o perfil profissional de Caio Martin.
-
-Principais seções:
-
-- Topbar com e-mail e LinkedIn.
-- Menu principal com links para Sobre, Competências, Portfólio, Processo e Contato.
-- Hero principal com chamada profissional.
-- Cards de áreas de atuação: Web, Dados e Processos.
-- Seção Sobre.
-- Seção Competências.
-- Seção Projetos com chamada para a página de portfólio.
-- Seção Processo.
-- CTA final para a página de contato.
-- Rodapé com navegação rápida.
-
-Os botões principais da home foram atualizados para apontar para:
-
-```html
-portfolio.html
-contato.html
-```
-
-## Página de portfólio: `portfolio.html`
-
-Esta página foi criada para funcionar como uma vitrine separada de projetos.
-
-Ela contém:
-
-- Hero próprio da página.
-- Breadcrumb simples: Início > Portfólio.
-- Carrossel de projetos em destaque.
-- Grade com todos os posts de projetos.
-- CTA para contato.
-
-O carrossel e a grade não são escritos manualmente no HTML. Eles são gerados pelo JavaScript com base no conteúdo do arquivo `projects.js`.
-
-No `portfolio.html`, os scripts são carregados nesta ordem:
+Vitrine dedicada aos projetos, com um carrossel em destaque e uma grade completa logo abaixo. Ambos são montados via JavaScript a partir de `projects.js`. Os scripts são carregados nesta ordem, que é importante:
 
 ```html
 <script src="projects.js" defer></script>
 <script src="script.js" defer></script>
 ```
 
-Essa ordem é importante porque `projects.js` cria a lista de projetos antes de `script.js` tentar montar o carrossel.
+### `contato.html`
+
+Canais diretos (email, WhatsApp, LinkedIn) e um formulário de contato.
+
+### `404.html`
+
+Página de erro personalizada (mesmo header/footer do site), servida automaticamente pelo GitHub Pages quando uma URL não existe. Tem `<meta name="robots" content="noindex, follow">` para não ser indexada.
 
 ## Dados dos projetos: `projects.js`
 
-O arquivo `projects.js` contém o array `window.portfolioProjects`.
-
-Cada item representa um post/projeto:
+O arquivo expõe `window.portfolioProjects`, um array de objetos usados tanto no carrossel quanto na grade do `portfolio.html`:
 
 ```js
 {
@@ -229,74 +80,50 @@ Cada item representa um post/projeto:
   category: "Página estática",
   year: "2026",
   summary: "Página institucional para apresentar perfil, competências, projetos e canais de contato de forma responsiva.",
-  image: "https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=1200&q=80",
+  image: "lib/img/hero-home.jpg",
   url: "index.html",
   cta: "Abrir página",
   tags: ["HTML", "CSS", "Responsivo"]
 }
 ```
 
-Para adicionar um novo projeto ao carrossel, basta copiar um bloco desses e alterar:
+Para adicionar um projeto novo, copie um bloco desses e ajuste `title`, `category`, `year`, `summary`, `image`, `url`, `cta` e `tags`.
 
-- `title`: nome do projeto.
-- `category`: tipo do projeto.
-- `year`: ano, status ou contexto.
-- `summary`: descrição curta.
-- `image`: imagem do projeto.
-- `url`: link para a página, demo, repositório ou estudo de caso.
-- `cta`: texto do botão.
-- `tags`: tecnologias ou temas.
+Quando um projeto ainda não tem link real, use `status: "in-progress"` no lugar de `url`/`cta`. O JavaScript detecta esse campo e mostra um selo "Em elaboração" em vez de um botão, sem parecer um link quebrado:
 
-Se o campo `url` ficar como `"#"`, o botão aparece visualmente, mas fica desativado para indicar que o link ainda precisa ser configurado.
+```js
+{
+  title: "Cluster de virtualização Proxmox",
+  status: "in-progress",
+  // ...
+}
+```
 
-## Página de contato: `contato.html`
+## Formulário de contato
 
-A página de contato foi criada inspirada na referência indicada, com uma estrutura mais destacada do que um simples bloco no fim da home.
-
-Ela contém:
-
-- Hero próprio da página.
-- Breadcrumb: Início > Contato.
-- Lista de canais diretos:
-  - Email.
-  - WhatsApp.
-  - LinkedIn.
-  - Link para o portfólio.
-- Cards auxiliares de atendimento e retorno.
-- Formulário de contato.
-- CTA para acessar o portfólio.
-
-O formulário não envia dados para servidor. Ele usa JavaScript para montar um link `mailto:` e abrir o aplicativo de e-mail do visitante com a mensagem preenchida.
-
-Campos do formulário:
-
-- Nome.
-- Email.
-- Telefone ou WhatsApp.
-- Assunto.
-- Mensagem.
+O formulário em `contato.html` envia os dados via `fetch` para a API do [Web3Forms](https://web3forms.com), sem precisar de backend próprio. Tem um campo honeypot (`botcheck`) contra spam automatizado. A lógica de envio e o feedback visual (`[data-form-feedback]`) ficam em `script.js`.
 
 ## JavaScript: `script.js`
 
-O arquivo `script.js` controla os comportamentos compartilhados do site.
+Comportamentos compartilhados por todas as páginas:
 
-Funções principais:
+- Abre/fecha o menu mobile e fecha ao clicar em um link.
+- Mostra o botão "voltar ao topo" após rolar a página, e aplica sombra no header ao rolar.
+- Anima a entrada dos elementos com a classe `.reveal` via `IntersectionObserver`.
+- Atualiza o ano do copyright automaticamente (`#copyright-year`).
+- Monta o carrossel e a grade de projetos a partir de `window.portfolioProjects`, incluindo o selo "Em elaboração" para projetos sem link.
+- Controla o carrossel (setas, dots, teclado) e remove do foco por teclado os links dos slides ocultos, evitando foco invisível para quem navega via Tab.
+- Processa o envio do formulário de contato para o Web3Forms.
 
-- Abre e fecha o menu mobile.
-- Fecha o menu mobile ao clicar em um link.
-- Mostra o botão "voltar ao topo" depois de rolar a página.
-- Aplica animações de entrada nos elementos com a classe `.reveal`.
-- Monta o carrossel de projetos usando `window.portfolioProjects`.
-- Monta a grade de posts usando os mesmos dados do carrossel.
-- Processa o formulário de contato e abre o e-mail com `mailto:`.
-
-Principais seletores usados pelo JavaScript:
+Principais seletores usados:
 
 ```text
 .nav__toggle
 .nav__menu
 .to-top
+.site-header
 .reveal
+#copyright-year
 [data-project-carousel]
 [data-carousel-track]
 [data-carousel-dots]
@@ -307,87 +134,66 @@ Principais seletores usados pelo JavaScript:
 
 ## CSS: `styles.css`
 
-O arquivo `styles.css` centraliza toda a identidade visual.
+Centraliza a identidade visual: cores, tipografia, layout de topbar/menu/rodapé, heros de cada página, cards de competências/projetos/posts, carrossel, formulário e responsividade (breakpoints em 900px e 560px). Todas as páginas compartilham as mesmas classes de base.
 
-Ele define:
+## SEO e metadados
 
-- Cores principais.
-- Tipografia.
-- Layout da topbar, menu e rodapé.
-- Hero da home.
-- Heros internos de portfólio e contato.
-- Cards de competências, projetos, posts e contato.
-- Carrossel.
-- Formulário.
-- Responsividade para tablet e celular.
-- Estados de foco, hover e botão desativado.
+- `robots.txt` e `sitemap.xml` na raiz, apontando para `https://caiomartin.dev`.
+- `<link rel="canonical">` e `og:url`/`og:image`/`og:title`/`og:description` em cada página.
+- Dados estruturados (`Person`) no `index.html`.
+- `favicon.ico` na raiz como fallback, além do `<link rel="icon">` em PNG.
+- `404.html` com `noindex` para não ser indexada por engano.
 
-As páginas usam as mesmas classes de base para manter consistência visual.
+## Imagens
+
+Todas as imagens usadas pelo site ficam em `lib/img/` e já foram otimizadas (redimensionadas e recomprimidas) para reduzir o peso da página sem perda perceptível de qualidade. A imagem de hero de cada página é pré-carregada via `<link rel="preload" as="image" fetchpriority="high">` para melhorar o carregamento inicial.
 
 ## Dependências externas
 
-O projeto não usa pacotes instalados, mas carrega alguns recursos via CDN:
+O projeto não usa pacotes de runtime, mas carrega via CDN:
 
-- Google Fonts:
-  - Inter.
-  - Sora.
+- Google Fonts: Inter e Sora.
 - Bootstrap Icons.
-- Imagens remotas do Unsplash.
 
-Se quiser deixar o site 100% independente de internet, o próximo passo seria baixar fontes, ícones essenciais e imagens para pastas locais.
+## CI/CD com GitHub Pages e Cypress
 
-## Dados que ainda devem ser personalizados
-
-Alguns dados foram deixados como placeholder e devem ser trocados pelos dados reais:
-
-- Email: `contato@caiomartin.dev`.
-- LinkedIn: `https://www.linkedin.com/in/caiomartin/`.
-- WhatsApp: `https://wa.me/5511999999999`.
-- Imagens dos projetos.
-- Links reais dos projetos em `projects.js`.
-- Textos específicos sobre experiência, formação, serviços e cases reais.
-
-## Como adicionar uma nova página de projeto
-
-Uma forma simples de evoluir o site é criar páginas individuais para cada projeto.
-
-Exemplo:
+Pipelines em `.github/workflows/`:
 
 ```text
-projeto-dashboard.html
-projeto-automacao.html
-projeto-landing-page.html
+pr-develop-quality.yml     # roda em PR para Develop
+pr-main-release-check.yml  # roda em PR para main
+main-deploy-pages.yml      # roda em push para main
 ```
 
-Depois, basta atualizar o campo `url` no `projects.js`:
-
-```js
-url: "projeto-dashboard.html"
-```
-
-Assim o post do carrossel passa a abrir a página detalhada daquele projeto.
-
-## Validação feita
-
-Foi feita uma checagem de sintaxe do JavaScript:
+Fluxo:
 
 ```text
-node --check script.js
+feature branch
+→ PR para Develop → validação + Cypress local
+→ merge para Develop
+→ PR para main → validação + Cypress local
+→ merge/push para main
+→ deploy no GitHub Pages
+→ Cypress contra o endpoint publicado
 ```
 
-O arquivo passou sem erros de sintaxe.
+`pr-develop-quality.yml` e `pr-main-release-check.yml` instalam as dependências, rodam `npm run validate` e um smoke test do Cypress servindo o site localmente (`npm run serve`).
 
-## Resumo do fluxo do usuário
+`main-deploy-pages.yml` valida o projeto, monta um artefato só com os arquivos que devem ir ao ar (HTML, CSS, JS, `lib/`, `robots.txt`, `sitemap.xml`, `favicon.ico`, `404.html`, `CNAME`), publica no GitHub Pages e roda o Cypress contra o site já publicado (`npm run cypress:live`).
 
-O visitante pode entrar pela home, entender o perfil profissional, abrir o portfólio para ver os projetos em formato de posts e então ir para contato.
+Configuração necessária no GitHub: em `Settings > Pages`, `Source` deve estar como `GitHub Actions`.
 
-Fluxo esperado:
+### Scripts do `package.json`
 
-```text
-Home
-→ Portfólio
-→ Projeto ou post
-→ Contato
+```bash
+npm run serve         # sobe o site em http://127.0.0.1:4173
+npm run validate       # checa sintaxe do JS e a estrutura do site (scripts/validate-site.mjs)
+npm run cypress:open    # abre o Cypress em modo interativo
+npm run cypress:local    # roda o smoke test contra o site local
+npm run cypress:live      # roda o smoke test contra o site publicado
 ```
 
-Também é possível acessar contato diretamente pelo menu ou pelos CTAs distribuídos nas páginas.
+## O que ainda pode evoluir
+
+- **Analytics**: o site ainda não tem nenhuma ferramenta de analytics conectada (precisa de conta/token em algum serviço como Cloudflare Web Analytics, Plausible ou GA4).
+- **Projetos-modelo**: alguns itens em `projects.js` estão marcados como `status: "in-progress"` ("Em elaboração") até terem um link real (repositório, case, demonstração).
