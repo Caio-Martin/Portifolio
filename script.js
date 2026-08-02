@@ -1,3 +1,9 @@
+const copyrightYear = document.getElementById("copyright-year");
+
+if (copyrightYear) {
+  copyrightYear.textContent = copyrightYear.textContent.replace(/\d{4}/, String(new Date().getFullYear()));
+}
+
 const navToggle = document.querySelector(".nav__toggle");
 const navMenu = document.querySelector(".nav__menu");
 const toTop = document.querySelector(".to-top");
@@ -61,18 +67,20 @@ const escapeHtml = (value) => String(value ?? "").replace(/[&<>"']/g, (character
   "'": "&#039;"
 }[character]));
 
-const projectLinkAttributes = (url) => {
-  const href = url || "#";
-  const isExternal = /^https?:\/\//i.test(href);
-  const disabled = href === "#";
+const projectLinkAttributes = (url) => ({
+  href: url,
+  target: /^https?:\/\//i.test(url) ? ' target="_blank"' : "",
+  rel: /^https?:\/\//i.test(url) ? ' rel="noopener"' : ""
+});
 
-  return {
-    href,
-    target: isExternal ? ' target="_blank"' : "",
-    rel: isExternal ? ' rel="noopener"' : "",
-    disabled: disabled ? ' aria-disabled="true" tabindex="-1"' : "",
-    disabledClass: disabled ? " is-disabled" : ""
-  };
+const renderProjectCta = (project, btnClass) => {
+  if (!project.url || project.url === "#") {
+    return '<span class="project-status"><i class="bi bi-hourglass-split" aria-hidden="true"></i> Em elaboração</span>';
+  }
+
+  const link = projectLinkAttributes(project.url);
+
+  return `<a class="btn ${btnClass}" href="${escapeHtml(link.href)}"${link.target}${link.rel}>${escapeHtml(project.cta || "Abrir projeto")} <i class="bi bi-arrow-right-short" aria-hidden="true"></i></a>`;
 };
 
 const renderProjectCarousel = () => {
@@ -88,7 +96,6 @@ const renderProjectCarousel = () => {
 
   if (track && dots && shell) {
     track.innerHTML = projects.map((project, index) => {
-      const link = projectLinkAttributes(project.url);
       const tags = (project.tags || []).map((tag) => `<li>${escapeHtml(tag)}</li>`).join("");
 
       return `
@@ -102,7 +109,7 @@ const renderProjectCarousel = () => {
             <h3>${escapeHtml(project.title)}</h3>
             <p>${escapeHtml(project.summary)}</p>
             <ul class="carousel-slide__tags">${tags}</ul>
-            <a class="btn btn--primary${link.disabledClass}" href="${escapeHtml(link.href)}"${link.target}${link.rel}${link.disabled}>${escapeHtml(project.cta || "Abrir projeto")} <i class="bi bi-arrow-right-short" aria-hidden="true"></i></a>
+            ${renderProjectCta(project, "btn--primary")}
           </div>
         </article>
       `;
@@ -121,7 +128,15 @@ const renderProjectCarousel = () => {
       track.style.transform = `translateX(-${currentIndex * 100}%)`;
 
       slides.forEach((slide, index) => {
-        slide.setAttribute("aria-hidden", String(index !== currentIndex));
+        const isHidden = index !== currentIndex;
+        slide.setAttribute("aria-hidden", String(isHidden));
+        slide.querySelectorAll("a[href], button").forEach((focusable) => {
+          if (isHidden) {
+            focusable.setAttribute("tabindex", "-1");
+          } else {
+            focusable.removeAttribute("tabindex");
+          }
+        });
       });
 
       dotButtons.forEach((dot, index) => {
@@ -151,7 +166,6 @@ const renderProjectCarousel = () => {
 
   if (postsGrid) {
     postsGrid.innerHTML = projects.map((project) => {
-      const link = projectLinkAttributes(project.url);
       const tags = (project.tags || []).map((tag) => `<li>${escapeHtml(tag)}</li>`).join("");
 
       return `
@@ -165,7 +179,7 @@ const renderProjectCarousel = () => {
             <h3>${escapeHtml(project.title)}</h3>
             <p>${escapeHtml(project.summary)}</p>
             <ul class="post-card__tags">${tags}</ul>
-            <a class="btn btn--outline${link.disabledClass}" href="${escapeHtml(link.href)}"${link.target}${link.rel}${link.disabled}>${escapeHtml(project.cta || "Abrir projeto")} <i class="bi bi-arrow-right-short" aria-hidden="true"></i></a>
+            ${renderProjectCta(project, "btn--outline")}
           </div>
         </article>
       `;

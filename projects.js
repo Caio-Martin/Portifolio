@@ -17,8 +17,7 @@ window.portfolioProjects = [
     year: "Projeto modelo",
     summary: "Ambiente de virtualização com Proxmox e cloud Azure, incluindo VMs, backups, snapshots e alta disponibilidade de serviços.",
     image: "lib/img/thumb-dashboard.jpg",
-    url: "#",
-    cta: "Adicionar link",
+    status: "in-progress",
     tags: ["Proxmox", "Azure", "Windows Server"]
   },
   {
@@ -27,8 +26,7 @@ window.portfolioProjects = [
     year: "Projeto modelo",
     summary: "Projeto de rede com equipamentos UniFi: segmentação por VLANs, Wi-Fi corporativo e monitoramento de tráfego.",
     image: "lib/img/thumb-automation.jpg",
-    url: "#",
-    cta: "Adicionar link",
+    status: "in-progress",
     tags: ["Ubiquiti", "UniFi", "VLAN"]
   },
   {
@@ -37,8 +35,7 @@ window.portfolioProjects = [
     year: "Projeto modelo",
     summary: "Políticas de firewall e hardening de servidores Linux, com fluxos de automação em n8n para reduzir tarefas manuais e riscos.",
     image: "lib/img/thumb-site.jpg",
-    url: "#",
-    cta: "Adicionar link",
+    status: "in-progress",
     tags: ["Firewall", "Linux", "n8n"]
   }
 ];
