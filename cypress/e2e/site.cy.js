@@ -8,7 +8,7 @@ describe("portfolio site", () => {
 
   it("loads the portfolio page", () => {
     cy.visit("/portfolio.html");
-    cy.contains("Portfólio em carrossel").should("be.visible");
+    cy.get("#portfolio-title").should("be.visible").and("contain", "Trabalho que sai");
     cy.get("[data-project-carousel]").should("exist");
     cy.get("[data-project-posts]").should("exist");
   });
