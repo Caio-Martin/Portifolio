@@ -2,16 +2,25 @@
   "name": "portifolio-caiomartin",
   "version": "1.0.0",
   "private": true,
-  "description": "Site estatico de portfolio com CI/CD e Cypress.",
+  "description": "Portf\u00f3lio est\u00e1tico com publica\u00e7\u00e3o automatizada e testes de interface.",
   "scripts": {
-    "serve": "http-server . -p 4173 -c-1",
-    "validate": "node --check script.js && node scripts/validate-site.mjs",
+    "serve": "http-server . -a 127.0.0.1 -p 4173 -c-1",
+    "validate": "node --check script.js && node --check theme.js && node --check projects.js && node scripts/validate-site.mjs",
     "cypress:open": "cypress open",
     "cypress:local": "cypress run",
-    "cypress:live": "cypress run --config-file cypress.live.config.js"
+    "cypress:live": "cypress run --config-file cypress.live.config.js",
+    "generate:projects": "node scripts/generate-projects.mjs",
+    "build": "node scripts/build-site.mjs",
+    "serve:dist": "http-server dist -a 127.0.0.1 -p 4174 -c-1",
+    "cypress:artifact": "cypress run --config baseUrl=http://127.0.0.1:4174",
+    "test:static": "node --test scripts/validate-site.test.mjs"
   },
   "devDependencies": {
-    "cypress": "^14.5.4",
+    "axe-core": "^4.14.0",
+    "cypress": "^16.1.1",
     "http-server": "^14.1.1"
+  },
+  "engines": {
+    "node": ">=22"
   }
 }

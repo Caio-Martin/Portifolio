@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 76 40">
+  <symbol id="monogram" viewBox="0 0 76 40">
+    <g fill="none" stroke="currentColor" stroke-width="6" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M22 12C19 9 16 8 13 8C6 8 3 13 3 20C3 27 8 32 14 32C17 32 20 31 22 28"/>
+      <path d="M29 32V17C29 5 43 5 43 17V32M43 17C43 5 57 5 57 17V32"/>
+    </g>
+    <rect x="66" y="29" width="7" height="7" rx="1.5" fill="var(--brand-accent, #2456cf)"/>
+  </symbol>
+  <use href="#monogram"/>
+</svg>
