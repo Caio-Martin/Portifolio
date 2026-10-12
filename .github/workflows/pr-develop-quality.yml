@@ -30,12 +30,18 @@ jobs:
 
       - name: Validate static files
         run: npm run validate
+      - name: Test static validation regressions
+        run: npm run test:static
+
+      - name: Build and validate publication artifact
+        run: npm run build
 
       - name: Run Cypress smoke locally
         uses: cypress-io/github-action@v7
         with:
           install: false
-          start: npm run serve
-          wait-on: http://127.0.0.1:4173
+          config: baseUrl=http://127.0.0.1:4174
+          start: npm run serve:dist
+          wait-on: http://127.0.0.1:4174
           wait-on-timeout: 120
           browser: chrome
